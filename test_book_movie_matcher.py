@@ -8,7 +8,7 @@ import os
 import book_movie_matcher as app
 
 
-"""This test case checks whether the input is propely validated or not"""
+"""This test case checks whether the input is properly validated or not"""
 class TestInputCleaning(unittest.TestCase):
 
     def test_clean_text_spaces(self):
@@ -40,16 +40,18 @@ class TestCSVHandling(unittest.TestCase):
         self.assertGreater(len(self.dataset), 0)
 
     def test_movie_not_in_csv(self):
-        """if it is Unknown movie it should return empty list before web fetch."""
-        books = app.from_local("MovieThatDoesNotExist", self.dataset, min_required=4)
+        """Unknown movie should return empty list before web fetch."""
+        books = app.from_local("MovieThatDoesNotExist", self.dataset, minimum=4)
         self.assertEqual(len(books), 0)
         print(" handled unknown movie safely")
 
+
     def test_recommendation_limit(self):
-        """It is checking the limit."""
-        books = app.from_local("Inception", self.dataset, min_required=4)
+        """Local recommendations should not exceed limit."""
+        books = app.from_local("Inception", self.dataset, minimum=4)
         self.assertLessEqual(len(books), 4)
         print(" recommendation limit maintained")
+
 
 
 """This test cases validate whether book object is properly working or not"""

@@ -20,6 +20,7 @@ import csv
 import re
 import sqlite3
 import requests
+import os
 from collections import Counter
 from bs4 import BeautifulSoup
 
@@ -63,9 +64,15 @@ def valid(txt):
 #Here CSV File is loaded
 def load_csv(file="books_movies.csv"):
     """Load dataset into dictionary {movie_title: [Book, Book, ...]}."""
+
     data = {}
+
+    # Always load CSV from the same folder as this script
+    dir = os.path.dirname(os.path.abspath(__file__))
+    f_path = os.path.join(dir, file)
+
     try:
-        with open(file, newline="", encoding="utf-8") as f:
+        with open(full_path, newline="", encoding="utf-8") as f:
             for row in csv.DictReader(f):
                 key = row["movie_title"].lower()
                 data.setdefault(key, []).append(
@@ -78,7 +85,7 @@ def load_csv(file="books_movies.csv"):
                     )
                 )
     except FileNotFoundError:
-        print("\nCSV file is missing.\n")
+        print(f"\nCSV file not found at: {f_path}\n")
 
     return data
 

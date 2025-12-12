@@ -67,9 +67,9 @@ def load_csv(file="books_movies.csv"):
 
     data = {}
 
-    # Always load CSV from the same folder as this script
-    dir = os.path.dirname(os.path.abspath(__file__))
-    f_path = os.path.join(dir, file)
+    # Build full path to CSV next to the script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    full_path = os.path.join(script_dir, file)
 
     try:
         with open(full_path, newline="", encoding="utf-8") as f:
@@ -85,7 +85,7 @@ def load_csv(file="books_movies.csv"):
                     )
                 )
     except FileNotFoundError:
-        print(f"\nCSV file not found at: {f_path}\n")
+        print(f"\nCSV file not found at path:\n{full_path}\n")
 
     return data
 

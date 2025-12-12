@@ -24,9 +24,7 @@ from collections import Counter
 from bs4 import BeautifulSoup
 
 
-# -----------------------------
-# Models
-# -----------------------------
+#Models
 
 class Movie:
     def __init__(self, title, genre="Unknown"):
@@ -47,9 +45,7 @@ class Book:
         return self.description[:120] + "..." if len(self.description) > 120 else self.description
 
 
-# -----------------------------
-# Input Cleaning (Regex)
-# -----------------------------
+#here Regex is used in input cleaning
 
 def tidy(txt):
     """Normalize spacing and remove unwanted characters."""
@@ -64,10 +60,7 @@ def valid(txt):
     return bool(re.match(r"^[A-Za-z0-9\s\-\'\"!?.,]+$", txt))
 
 
-# -----------------------------
-# CSV Loading
-# -----------------------------
-
+#Here CSV File is loaded
 def load_csv(file="books_movies.csv"):
     """Load dataset into dictionary {movie_title: [Book, Book, ...]}."""
     data = {}
@@ -95,11 +88,9 @@ def from_local(movie, dataset, minimum=4):
     return dataset.get(movie.lower(), [])[:minimum]
 
 
-# -----------------------------
-# Web Scraping (Goodreads)
-# -----------------------------
+#   In this Function Data is fetch from web using bs4 
 
-def fetch_data_from_web(movie, genre, count=2):
+def fetch_data_from_web(movie, genre, count=5):
     """Fetch additional book suggestions from Goodreads if CSV suggestions are fewer."""
     url = f"https://www.goodreads.com/search?q={movie.replace(' ', '+')}"
     collected = []
@@ -139,9 +130,7 @@ def fetch_data_from_web(movie, genre, count=2):
     return collected
 
 
-# -----------------------------
-# Database Utilities
-# -----------------------------
+#DB_Setup
 
 def db_setup(db="project.db"):
     """Create database tables if they don't exist."""
@@ -171,7 +160,7 @@ def save(user, movie, book_list, db="project.db"):
     con = sqlite3.connect(db)
     cur = con.cursor()
 
-    # ensure DB exists
+   
     db_setup(db)
 
     cur.execute("INSERT INTO history(user,movie,genre) VALUES(?,?,?)",
@@ -210,9 +199,7 @@ def show_records(db="project.db"):
     con.close()
 
 
-# -----------------------------
-# Data Analysis
-# -----------------------------
+#Data analysis is done here
 
 def analysis_of_data(data):
     """Show simple statistics based on the session results."""
@@ -234,10 +221,7 @@ def analysis_of_data(data):
     print("======================================\n")
 
 
-# -----------------------------
-# Main Program
-# -----------------------------
-
+#Main block
 def main():
 
     db_setup()

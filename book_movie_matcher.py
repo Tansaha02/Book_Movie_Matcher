@@ -10,7 +10,7 @@ Key concepts used:
 - OOP (Movie and Book classes)
 - CSV reading
 - Lists & dictionaries
-- Regular expressions for input sanitizing
+- Regular expressions for input cleaning
 - SQLite for saving search history
 - Web scraping (BeautifulSoup)
 - Basic data analysis with Counter
@@ -99,19 +99,19 @@ def fetch_data_from_web(movie, genre, count=5):
         pg = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=7)
         soup = BeautifulSoup(pg.text, "html.parser")
     except:
-        return []   # No internet / website blocked
+        return []   # No internet / website blocked it will return this
 
     links = soup.select("a.bookTitle")[:8]   # get several to filter quality
 
     for ln in links:
         title = ln.get_text(strip=True)
 
-        # ignore results unrelated to books
+        # it will ignore results unrelated to books
         skip_words = ["colour", "coloring", "diary", "activity", "guide"]
         if any(w in title.lower() for w in skip_words):
             continue
 
-        # Try to locate the author
+        #it is trying to locate the author
         row = ln.find_parent("tr")
         author = "Unknown"
 

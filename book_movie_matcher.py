@@ -167,7 +167,6 @@ def save(user, movie, book_list, db="project.db"):
     con = sqlite3.connect(db)
     cur = con.cursor()
 
-   
     db_setup(db)
 
     cur.execute("INSERT INTO history(user,movie,genre) VALUES(?,?,?)",
